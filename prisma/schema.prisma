@@ -1,0 +1,258 @@
+// prisma/schema.prisma
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ========================================
+// ENUMS
+// ========================================
+
+enum UserRole {
+  OWNER       // Inhaber (Super-Admin)
+  ADMIN
+  INSTRUCTOR
+}
+
+enum TransmissionType {
+  MANUAL      // Schaltung
+  AUTOMATIC   // Automatik
+}
+
+enum AppointmentType {
+  PRACTICAL_LESSON   // Praktische Fahrstunde
+  THEORY_LESSON      // Theorieunterricht
+  EXAM               // Prüfung
+  HIGHWAY            // Autobahnfahrt
+  NIGHT_DRIVE        // Nachtfahrt
+  COUNTRY_ROAD       // Überlandfahrt
+}
+
+enum RouteType {
+  COUNTRY    // Land
+  HIGHWAY    // Autobahn
+  NIGHT      // Nachtfahrt
+}
+
+enum PaymentStatus {
+  OPEN       // Offen
+  PAID       // Bezahlt
+}
+
+// UnavailabilityType enum removed - only BLOCKED is used now
+
+enum ActivityAction {
+  CREATE
+  UPDATE
+  DELETE
+  LOGIN
+  LOGOUT
+  LOGIN_FAILED
+}
+
+enum ExamAuthority {
+  TUV
+  DEKRA
+}
+
+// ========================================
+// MODELS
+// ========================================
+
+model User {
+  id                  String   @id @default(uuid())
+  username            String   @unique
+  passwordHash        String
+  firstName           String
+  lastName            String
+  role                UserRole
+  isActive            Boolean  @default(true)
+  mustChangePassword  Boolean  @default(false)
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+
+  // Brute-Force Protection
+  failedLoginAttempts Int       @default(0)
+  lockedUntil         DateTime?
+
+  // Soft-Delete
+  isDeleted           Boolean   @default(false)
+  deletedAt           DateTime?
+
+  // Fahrzeug-Zuordnung (nur für INSTRUCTOR)
+  assignedVehicleId   String?
+  assignedVehicle     Vehicle? @relation("UserAssignedVehicle", fields: [assignedVehicleId], references: [id], onDelete: SetNull)
+
+  appointments        Appointment[]
+  unavailabilities    Unavailability[]
+  activityLogs        ActivityLog[]
+  todos               Todo[]
+  notes               Note[]
+  blacklistedTokens   TokenBlacklist[]
+
+  @@map("users")
+}
+
+model Vehicle {
+  id            String           @id @default(uuid())
+  name          String
+  licensePlate  String           @unique
+  transmission  TransmissionType
+  isActive      Boolean          @default(true)
+  notes         String?          @db.Text
+  oilChangeKm   Int?             // Kilometerstand letzter Ölwechsel
+  createdAt     DateTime         @default(now())
+  updatedAt     DateTime         @updatedAt
+
+  appointments      Appointment[]
+  assignedToUsers   User[]        @relation("UserAssignedVehicle")
+
+  @@map("vehicles")
+}
+
+model Appointment {
+  id            String          @id @default(uuid())
+  type          AppointmentType
+  startTime     DateTime
+  endTime       DateTime
+  routeType     RouteType?
+  paymentStatus PaymentStatus   @default(OPEN)
+  notes         String?         @db.Text
+  deletedAt     DateTime?       // Soft-Delete Timestamp
+
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+
+  instructorId  String
+  instructor    User            @relation(fields: [instructorId], references: [id], onDelete: Cascade)
+  
+  vehicleId     String?
+  vehicle       Vehicle?        @relation(fields: [vehicleId], references: [id], onDelete: SetNull)
+
+  studentId     String?
+  student       Student?        @relation(fields: [studentId], references: [id], onDelete: Cascade)
+
+  @@index([instructorId, startTime])
+  @@index([vehicleId, startTime])
+  @@index([studentId])
+  @@index([startTime])
+  @@map("appointments")
+}
+
+model Unavailability {
+  id           String    @id @default(uuid())
+  type         String    @default("BLOCKED")
+  startTime    DateTime
+  endTime      DateTime
+  reason       String?   @db.Text
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  instructorId String
+  instructor   User      @relation(fields: [instructorId], references: [id], onDelete: Cascade)
+
+  @@index([instructorId, startTime])
+  @@map("unavailabilities")
+}
+
+model ActivityLog {
+  id         String         @id @default(uuid())
+  action     ActivityAction
+  entityType String
+  entityId   String?
+  changes    Json?
+  userAgent  String?
+  timestamp  DateTime       @default(now())
+
+  userId     String
+  user       User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, timestamp])
+  @@index([timestamp])
+  @@map("activity_logs")
+}
+
+model Todo {
+  id          String   @id @default(uuid())
+  text        String
+  completed   Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, completed])
+  @@map("todos")
+}
+
+model Note {
+  id          String   @id @default(uuid())
+  content     String   @db.Text
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("notes")
+}
+
+model Student {
+  id           String    @id @default(uuid())
+  firstName    String
+  lastName     String
+  birthDate    DateTime? // Optional
+  examAuthority ExamAuthority? // Prüfungsstelle: TÜV oder DEKRA
+
+  // Automatisierung:
+  isActive     Boolean   @default(true)
+  lastActivity DateTime  @default(now()) // Wird bei jeder Terminbuchung aktualisiert
+
+  registeredAt DateTime  @default(now())
+  passedAt     DateTime? // Wenn gesetzt, hat der Schüler bestanden -> Lösch-Timer startet
+
+  // Soft-Delete
+  isDeleted    Boolean   @default(false)
+  deletedAt    DateTime?
+
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  appointments Appointment[]
+
+  @@map("students")
+}
+
+model CachedOpenPayment {
+  id                  String          @id @default(uuid())
+  appointmentId       String
+  cachedDate          DateTime        // Das Datum, für das gecached wurde (Vortag)
+  studentName         String?
+  type                AppointmentType
+  startTime           DateTime
+  instructorFirstName String
+  instructorLastName  String
+  createdAt           DateTime        @default(now())
+
+  @@unique([appointmentId, cachedDate])
+  @@map("cached_open_payments")
+}
+
+model TokenBlacklist {
+  id        String   @id @default(cuid())
+  tokenId   String   @unique  // JWT ID (jti) from the token
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime // Token expiration time - for cleanup
+  createdAt DateTime @default(now())
+
+  @@index([expiresAt])
+  @@map("token_blacklist")
+}

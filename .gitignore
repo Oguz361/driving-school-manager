@@ -1,0 +1,30 @@
+# Dependencies
+node_modules/
+
+# Next.js build
+.next/
+out/
+build/
+dist/
+
+# Environment
+.env
+.env.*
+
+# Build metadata
+tsconfig.tsbuildinfo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# Sensitive files
+cookies.txt
+test-api.sh
+
+# Testing
+coverage/

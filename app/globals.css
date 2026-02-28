@@ -1,0 +1,416 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+:root {
+  --radius: 0.625rem;
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.129 0.042 264.695);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.129 0.042 264.695);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.129 0.042 264.695);
+  --primary: oklch(0.208 0.042 265.755);
+  --primary-foreground: oklch(0.984 0.003 247.858);
+  --secondary: oklch(0.968 0.007 247.896);
+  --secondary-foreground: oklch(0.208 0.042 265.755);
+  --muted: oklch(0.968 0.007 247.896);
+  --muted-foreground: oklch(0.554 0.046 257.417);
+  --accent: oklch(0.968 0.007 247.896);
+  --accent-foreground: oklch(0.208 0.042 265.755);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0.929 0.013 255.508);
+  --input: oklch(0.929 0.013 255.508);
+  --ring: oklch(0.704 0.04 256.788);
+  --chart-1: oklch(0.646 0.222 41.116);
+  --chart-2: oklch(0.6 0.118 184.704);
+  --chart-3: oklch(0.398 0.07 227.392);
+  --chart-4: oklch(0.828 0.189 84.429);
+  --chart-5: oklch(0.769 0.188 70.08);
+  --sidebar: oklch(0.984 0.003 247.858);
+  --sidebar-foreground: oklch(0.129 0.042 264.695);
+  --sidebar-primary: oklch(0.208 0.042 265.755);
+  --sidebar-primary-foreground: oklch(0.984 0.003 247.858);
+  --sidebar-accent: oklch(0.968 0.007 247.896);
+  --sidebar-accent-foreground: oklch(0.208 0.042 265.755);
+  --sidebar-border: oklch(0.929 0.013 255.508);
+  --sidebar-ring: oklch(0.704 0.04 256.788);
+}
+
+.dark {
+  --background: oklch(0.129 0.042 264.695);
+  --foreground: oklch(0.984 0.003 247.858);
+  --card: oklch(0.208 0.042 265.755);
+  --card-foreground: oklch(0.984 0.003 247.858);
+  --popover: oklch(0.208 0.042 265.755);
+  --popover-foreground: oklch(0.984 0.003 247.858);
+  --primary: oklch(0.929 0.013 255.508);
+  --primary-foreground: oklch(0.208 0.042 265.755);
+  --secondary: oklch(0.279 0.041 260.031);
+  --secondary-foreground: oklch(0.984 0.003 247.858);
+  --muted: oklch(0.279 0.041 260.031);
+  --muted-foreground: oklch(0.704 0.04 256.788);
+  --accent: oklch(0.279 0.041 260.031);
+  --accent-foreground: oklch(0.984 0.003 247.858);
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.551 0.027 264.364);
+  --chart-1: oklch(0.488 0.243 264.376);
+  --chart-2: oklch(0.696 0.17 162.48);
+  --chart-3: oklch(0.769 0.188 70.08);
+  --chart-4: oklch(0.627 0.265 303.9);
+  --chart-5: oklch(0.645 0.246 16.439);
+  --sidebar: oklch(0.208 0.042 265.755);
+  --sidebar-foreground: oklch(0.984 0.003 247.858);
+  --sidebar-primary: oklch(0.488 0.243 264.376);
+  --sidebar-primary-foreground: oklch(0.984 0.003 247.858);
+  --sidebar-accent: oklch(0.279 0.041 260.031);
+  --sidebar-accent-foreground: oklch(0.984 0.003 247.858);
+  --sidebar-border: oklch(1 0 0 / 10%);
+  --sidebar-ring: oklch(0.551 0.027 264.364);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+/* React Big Calendar Custom Styling */
+.rbc-calendar {
+  font-family: inherit;
+}
+
+.rbc-header {
+  padding: 12px 4px;
+  font-weight: 600;
+  background-color: #f9fafb;
+  border-bottom: 2px solid #e5e7eb;
+  font-size: 0.875rem;
+}
+
+.rbc-today {
+  background-color: #dbeafe;
+}
+
+.rbc-event {
+  padding: 2px 6px;
+  font-size: 0.75rem;
+  border-radius: 4px;
+  font-weight: 500;
+}
+
+.rbc-event:focus {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+.rbc-day-bg:hover {
+  background-color: #f9fafb;
+  cursor: pointer;
+}
+
+.rbc-event:hover {
+  opacity: 0.9;
+  cursor: pointer;
+}
+
+.rbc-time-slot {
+  min-height: 40px;
+}
+
+.rbc-timeslot-group {
+  min-height: 80px;
+}
+
+.rbc-current-time-indicator {
+  display: none !important;
+}
+
+/* Week View spezifisch */
+.rbc-time-view {
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  overflow-x: hidden;
+}
+
+.rbc-time-header {
+  background-color: #f9fafb;
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  overflow-y: scroll;
+}
+
+/* Verstecke die Scrollbar visuell im Header (für Spalten-Synchronisation) */
+.rbc-time-header::-webkit-scrollbar {
+  background: transparent;
+}
+.rbc-time-header::-webkit-scrollbar-thumb {
+  background: transparent;
+}
+/* Firefox */
+.rbc-time-header {
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+}
+
+.rbc-time-header-content {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* All-Day Row und Header-Row konsistent */
+.rbc-time-header-content > .rbc-row {
+  display: flex;
+  flex: none;
+}
+
+/* Library-Offset entfernen für konsistente Spaltenlinien */
+.rbc-row-bg {
+  right: 0 !important;
+}
+
+/* All-Day Zeile Synchronisation */
+.rbc-allday-cell {
+  display: flex;
+  width: 100%;
+}
+
+/* Background-Row unter All-Day Events */
+.rbc-row-bg {
+  display: flex;
+}
+
+.rbc-row-bg .rbc-day-bg {
+  flex: 1 1 0%;
+}
+
+.rbc-time-content {
+  border-top: 2px solid #e5e7eb;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* Synchronisiere Gutter-Breiten zwischen Header und Content */
+.rbc-time-gutter,
+.rbc-time-header-gutter {
+  min-width: 72px;
+  max-width: 72px;
+  flex-shrink: 0;
+}
+
+.rbc-time-gutter {
+  font-size: 0.75rem;
+  color: #6b7280;
+}
+
+/* Stabilisiere Spaltenbreiten */
+.rbc-time-view .rbc-time-header,
+.rbc-time-view .rbc-time-content {
+  width: 100%;
+}
+
+.rbc-day-slot {
+  min-width: 0;
+}
+
+/* Tagesansicht: Event-Container den gesamten Slot einnehmen lassen */
+.calendar-view-day .rbc-day-slot .rbc-events-container {
+  margin-right: 0 !important;
+}
+
+/* Tagesansicht: Events schmaler machen - nur Desktop */
+@media (min-width: 768px) {
+  .calendar-view-day .rbc-day-slot .rbc-event {
+    left: 8px !important;
+    right: 8px !important;
+    width: auto !important;
+  }
+}
+
+/* Wochenansicht: Events-Container */
+.calendar-view-week .rbc-day-slot .rbc-events-container {
+  margin-right: 0 !important;
+}
+
+/* Wochenansicht: Events schmaler machen - nur Desktop */
+@media (min-width: 768px) {
+  .calendar-view-week .rbc-day-slot .rbc-event {
+    left: 4px !important;
+    right: 4px !important;
+    width: auto !important;
+  }
+}
+
+.rbc-label {
+  padding: 0 8px;
+}
+
+/* Konsistente Border-Box-Sizing für alle Kalender-Elemente */
+.rbc-time-view *,
+.rbc-time-view *::before,
+.rbc-time-view *::after {
+  box-sizing: border-box;
+}
+
+/* Table-Layout fixieren für konsistente Spaltenbreiten */
+.rbc-time-header-content table,
+.rbc-time-content table {
+  table-layout: fixed;
+  width: 100%;
+}
+
+/* Gleiche Flex-Basis für alle Tages-Spalten */
+.rbc-day-slot,
+.rbc-header {
+  flex: 1 1 0%;
+}
+
+/* Shadcn Calendar Integration */
+.rdp-day_today {
+  font-weight: bold;
+  background-color: #dbeafe;
+}
+
+.rdp-day_selected {
+  background-color: #3b82f6 !important;
+  color: white !important;
+}
+
+/* Titan-Inspired Design System */
+
+/* Landing Page Colors */
+:root {
+  --landing-bg: #fafafa;
+  --landing-bg-dark: #0a0a0a;
+  --landing-text: #0a0a0a;
+  --landing-text-muted: #71717a;
+  --landing-text-light: #fafafa;
+  --landing-border: #e4e4e7;
+  --landing-border-subtle: #f4f4f5;
+  --landing-accent: #0284c7;
+}
+
+/* Refined Entrance Animations */
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-fade-up {
+  animation: fade-up 0.8s ease-out forwards;
+}
+
+.animate-fade-in {
+  animation: fade-in 0.6s ease-out forwards;
+}
+
+.animate-scale-in {
+  animation: scale-in 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Stagger Delays */
+.delay-100 { animation-delay: 100ms; }
+.delay-200 { animation-delay: 200ms; }
+.delay-300 { animation-delay: 300ms; }
+.delay-400 { animation-delay: 400ms; }
+.delay-500 { animation-delay: 500ms; }
+.delay-600 { animation-delay: 600ms; }
+
+/* Refined Hover Transitions */
+.hover-lift {
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.1);
+}
+
+/* Smooth Border Transitions */
+.border-animate {
+  transition: border-color 0.3s ease;
+}
+
+/* Section Number Styling */
+.section-number {
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  color: var(--landing-text-muted);
+}
