@@ -10,9 +10,12 @@ A full-featured driving school management platform built with Next.js 15. Manage
 
 ---
 
-## Demo
+## Pictures
+<img width="1470" height="802" alt="Bildschirmfoto 2026-03-01 um 00 39 27" src="https://github.com/user-attachments/assets/05928925-b5ca-4ea3-84ca-a7075356986c" />
+<img width="1470" height="802" alt="Bildschirmfoto 2026-03-01 um 00 40 07" src="https://github.com/user-attachments/assets/e4c9d6fe-db2f-4dab-9286-cfed70fddb30" />
+<img width="1470" height="802" alt="Bildschirmfoto 2026-03-01 um 00 40 36" src="https://github.com/user-attachments/assets/ca66340a-c033-4ed5-9722-5b6c49829059" />
 
-> 📹 Demo video:
+
 
 **Key highlights:**
 
